@@ -4,9 +4,9 @@ Daily trend digest for New Mexico state executive staff. The pipeline collects N
 
 ## Architecture
 
-[![NMMediaAgent architecture: public RSS inputs, a daily Logic Apps Consumption workflow, Azure Functions, Storage, a versioned Foundry agent, and an Outlook email digest.](docs/output/architecture/nm-media-agent-architecture.svg)](docs/output/architecture/nm-media-agent-architecture.svg)
+[![NMMediaAgent architecture: public RSS inputs, a daily Logic Apps Consumption workflow, Azure Functions, Storage, a versioned Foundry agent, and an Outlook email digest.](docs/output/architecture/nm-media-agent-architecture.svg?v=015ec73)](docs/output/architecture/nm-media-agent-architecture.svg?v=015ec73)
 
-[PNG image](docs/output/architecture/nm-media-agent-architecture.png) | [Editable Excalidraw source](docs/output/architecture/nm-media-agent-architecture.excalidraw)
+[PNG image](docs/output/architecture/nm-media-agent-architecture.png?v=015ec73) | [Editable Excalidraw source](docs/output/architecture/nm-media-agent-architecture.excalidraw)
 
 The diagram describes the checked-in infrastructure and runtime, not live deployment status. Both HTTP functions run in the same .NET 10 isolated / Flex Consumption Function App. Bing grounding and storage private networking are configurable; the model defaults to `gpt-4.1-mini`. The email path shown is the Office 365 Outlook connector in `infra/modules/logicapp.bicep` and requires an authorized work/school sender mailbox.
 
