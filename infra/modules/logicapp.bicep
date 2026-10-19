@@ -42,6 +42,9 @@ resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
           type: 'Object'
           defaultValue: {}
         }
+        functionHostKey: {
+          type: 'securestring'
+        }
       }
       triggers: {
         Daily_0600_MT: {
@@ -64,7 +67,12 @@ resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
             method: 'POST'
             uri: '${baseUrl}/ingestfeeds'
             queries: {
-              code: funcHostKey
+              code: '@parameters(\'functionHostKey\')'
+            }
+          }
+          runtimeConfiguration: {
+            secureData: {
+              properties: ['inputs', 'outputs']
             }
           }
         }
@@ -77,7 +85,12 @@ resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
             method: 'POST'
             uri: '${baseUrl}/synthesizetrends'
             queries: {
-              code: funcHostKey
+              code: '@parameters(\'functionHostKey\')'
+            }
+          }
+          runtimeConfiguration: {
+            secureData: {
+              properties: ['inputs', 'outputs']
             }
           }
         }
@@ -114,6 +127,9 @@ resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
             id: office365ApiId
           }
         }
+      }
+      functionHostKey: {
+        value: funcHostKey
       }
     }
   }
