@@ -1,10 +1,10 @@
 # media-agent: NM Trend Intelligence Agent
 
-Daily trend digest for New Mexico state executive staff. The pipeline collects New Mexico news and social posts, uses an Azure AI Foundry agent to identify the day's top five trends, and emails an executive digest.
+Daily trend digest for New Mexico state executive staff. The pipeline collects New Mexico news, uses an Azure AI Foundry agent to identify the day's top five trends, and emails an executive digest.
 
 ## Architecture
 
-[![NMMediaAgent architecture: public RSS and Reddit inputs, a daily Logic Apps Consumption workflow, Azure Functions, Storage, a versioned Foundry agent, and an Outlook email digest.](docs/output/architecture/nm-media-agent-architecture.svg)](docs/output/architecture/nm-media-agent-architecture.svg)
+[![NMMediaAgent architecture: public RSS inputs, a daily Logic Apps Consumption workflow, Azure Functions, Storage, a versioned Foundry agent, and an Outlook email digest.](docs/output/architecture/nm-media-agent-architecture.svg)](docs/output/architecture/nm-media-agent-architecture.svg)
 
 [PNG image](docs/output/architecture/nm-media-agent-architecture.png) | [Editable Excalidraw source](docs/output/architecture/nm-media-agent-architecture.excalidraw)
 
@@ -15,7 +15,7 @@ The diagram describes the checked-in infrastructure and runtime, not live deploy
 ```text
 Logic App (Consumption), daily at 06:00 Mountain
   1. POST /api/ingestfeeds       -> Function App
-       RSS (KRQE, KOB, NM InDepth) + r/NewMexico
+       RSS (KRQE, KOB, NM InDepth)
        -> dedup by URL hash (Table: urlDedupCache)
        -> store new articles (Blob: raw-landing/yyyy/MM/dd/...)
   2. POST /api/synthesizetrends  -> Function App
@@ -32,7 +32,7 @@ Logic App (Consumption), daily at 06:00 Mountain
 | Azure resources (Foundry, Bing Grounding, Function App, Storage, Logic App) | Azure Commercial | Grounding with Bing isn't available in Azure Government. |
 | Digest mailbox (Exchange Online) | Microsoft 365 GCC (Moderate) | GCC uses commercial Entra ID and the [worldwide Microsoft 365 endpoints](https://learn.microsoft.com/microsoft-365/enterprise/microsoft-365-endpoints), so the Logic App's Office 365 Outlook connector can sign in to GCC mailboxes. This doesn't apply to GCC High or DoD. |
 
-The digest is generated in Azure Commercial and emailed into M365 GCC. Its inputs are public news and social posts only.
+The digest is generated in Azure Commercial and emailed into M365 GCC. Its inputs are public news only.
 
 ## Repository layout
 
