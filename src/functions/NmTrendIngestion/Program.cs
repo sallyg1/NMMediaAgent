@@ -27,15 +27,17 @@ builder.Services.AddSingleton(new BlobContainerClient(
     new Uri($"https://{storageAccountName}.blob.core.windows.net/raw-landing"),
     new DefaultAzureCredential()));
 
+/* Reddit integration is paused pending authorization for business use.
 builder.Services.AddHttpClient<RedditSource>(client =>
 {
     client.BaseAddress = new Uri("https://www.reddit.com");
     client.DefaultRequestHeaders.UserAgent.ParseAdd("NmTrendIntelligenceAgent/1.0 (state-of-nm-trend-digest)");
 });
+*/
 
 builder.Services.AddHttpClient<RssSource>();
 
-builder.Services.AddSingleton<IArticleSource>(sp => sp.GetRequiredService<RedditSource>());
+// builder.Services.AddSingleton<IArticleSource>(sp => sp.GetRequiredService<RedditSource>());
 builder.Services.AddSingleton<IArticleSource>(sp => sp.GetRequiredService<RssSource>());
 
 builder.Services.AddSingleton<IDedupStore, TableDedupStore>();
