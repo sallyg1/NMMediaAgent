@@ -2,6 +2,14 @@
 
 Daily trend digest for New Mexico state executive staff. The pipeline collects New Mexico news and social posts, uses an Azure AI Foundry agent to identify the day's top five trends, and emails an executive digest.
 
+## Architecture
+
+[![NMMediaAgent architecture: public RSS and Reddit inputs, a daily Logic Apps Consumption workflow, Azure Functions, Storage, a versioned Foundry agent, and an Outlook email digest.](docs/output/architecture/nm-media-agent-architecture.svg)](docs/output/architecture/nm-media-agent-architecture.svg)
+
+[PNG image](docs/output/architecture/nm-media-agent-architecture.png) | [Editable Excalidraw source](docs/output/architecture/nm-media-agent-architecture.excalidraw)
+
+The diagram describes the checked-in infrastructure and runtime, not live deployment status. Both HTTP functions run in the same .NET 10 isolated / Flex Consumption Function App. Bing grounding and storage private networking are configurable; the model defaults to `gpt-4.1-mini`. The email path shown is the Office 365 Outlook connector in `infra/modules/logicapp.bicep` and requires an authorized work/school sender mailbox.
+
 ## How it works
 
 ```text
@@ -82,4 +90,3 @@ az deployment group create  -g <resource-group> -f infra/main.bicep -p infra/mai
 The deployment fails if the Bing resource doesn't exist yet. The deploying identity needs **Owner** (or **Contributor** + **User Access Administrator**) on the resource group, because the templates create role assignments and read the Bing resource key for the Foundry connection.
 
 After the first deployment, authorize the `office365-<prefix>` API connection in the Azure portal before the first email can be sent. Sign in with the sender account from the customer's M365 GCC tenant, preferably a shared or service mailbox rather than a personal one. If the GCC tenant's Conditional Access policies block the sign-in, the customer's identity team must allow it.
-
