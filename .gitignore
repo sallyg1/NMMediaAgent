@@ -1,0 +1,19 @@
+# .NET build output
+bin/
+obj/
+*.user
+.vs/
+
+# Local settings and secrets
+local.settings.json
+
+# Local tooling and deployment state
+.azure/
+.playwright-mcp/
+
+# Email exports
+Response/
+*.msg
+
+# Generated ARM template (build with: az bicep build --file infra/main.bicep)
+infra/main.json
